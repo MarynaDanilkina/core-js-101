@@ -27,8 +27,17 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return 'FizzBuzz';
+  }
+  if (num % 5 === 0) {
+    return 'Buzz';
+  }
+  if (num % 3 === 0) {
+    return 'Fizz';
+  }
+  return num;
 }
 
 
@@ -43,8 +52,8 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  return (n === 1) ? 1 : n * getFactorial(n - 1);
 }
 
 
@@ -60,8 +69,9 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  const arr = [...Array(n2 - n1 + 1).keys()].map((el) => el + n1);
+  return arr.reduce((accum, value) => (accum + value));
 }
 
 
@@ -80,8 +90,18 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+
+function isTriangle(a, b, c) {
+  if (a > b && a > c) {
+    return (c + b) > a;
+  }
+  if (b > a && b > c) {
+    return (c + a) > b;
+  }
+  if (c > b && c > a) {
+    return (b + a) > c;
+  }
+  return true;
 }
 
 
@@ -208,8 +228,9 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  const arr = str.split('').reverse();
+  return arr.join('');
 }
 
 
@@ -225,8 +246,10 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  const str = `${num}`;
+  const arr = str.split('').reverse();
+  return +(arr.join(''));
 }
 
 
@@ -272,7 +295,6 @@ function getDigitalRoot(/* num */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
  * Balanced means that is, whether it consists entirely of pairs of opening/closing brackets
@@ -294,8 +316,16 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  let result = str;
+  // eslint-disable-next-line no-mixed-operators
+  while (result.length && result.includes('[]') || result.includes('{}') || result.includes('()') || result.includes('<>')) {
+    result = result.replace('[]', '');
+    result = result.replace('{}', '');
+    result = result.replace('()', '');
+    result = result.replace('<>', '');
+  }
+  return result.length === 0;
 }
 
 
@@ -319,10 +349,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
-
 
 /**
  * Returns the common directory path for specified array of full filenames.
