@@ -193,12 +193,12 @@ function extractEmails(str) {
  *
  * @example
  *
- *            '┌────┐\n'+
+ *            '┌────\n'+
  *  (6,4) =>  '│    │\n'+
  *            '│    │\n'+
  *            '└────┘\n'
  *
- *  (2,2) =>  '┌┐\n'+
+ *  (2,2) =>  '┌\n'+
  *            '└┘\n'
  *
  *             '┌──────────┐\n'+
@@ -206,11 +206,14 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const empty = ' ';
+  const horizontally = '─';
+  const top = `┌${horizontally.repeat(width - 2)}┐\n`;
+  const senter = `│${empty.repeat(width - 2)}│\n`;
+  const button = `└${horizontally.repeat(width - 2)}┘\n`;
+  return `${top}${senter.repeat(height - 2)}${button}`;
 }
-
-
 /**
  * Encode specified string with ROT13 cipher
  * See details:  https://en.wikipedia.org/wiki/ROT13
@@ -227,10 +230,17 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const all = [];
+  const before = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !?';
+  const after = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm !?';
+  const arr = str.split('');
+  arr.map((el) => {
+    const ind = before.indexOf(el);
+    return all.push(after[ind]);
+  });
+  return all.join('');
 }
-
 /**
  * Returns true if the value is string; otherwise false.
  * @param {string} value
@@ -273,8 +283,14 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arr = [
+    'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  ];
+  return arr.indexOf(value);
 }
 
 
