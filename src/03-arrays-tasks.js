@@ -467,10 +467,16 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const arr = new Array(n);
+  arr.fill(0);
+  return arr.map((el, ind) => {
+    const newArr = new Array(n);
+    newArr.fill(0);
+    newArr[ind] = 1;
+    return newArr;
+  });
 }
-
 /**
  * Creates an array of integers from the specified start to end (inclusive)
  *
