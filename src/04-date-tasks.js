@@ -73,10 +73,28 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  let timeall = Math.abs(endDate.getTime() - startDate.getTime());
+  let hour = Math.floor(timeall / (1000 * 60 * 60));
+  if (hour < 9) {
+    hour = `0${hour}`;
+  }
+  timeall -= (hour * 1000 * 60 * 60);
+  let minutes = Math.floor(timeall / (1000 * 60));
+  if (minutes < 9) {
+    minutes = `0${minutes}`;
+  }
+  timeall -= (minutes * 1000 * 60);
+  let second = Math.floor(timeall / (1000));
+  if (second < 9) {
+    second = `0${second}`;
+  }
+  timeall -= (second * 1000);
+  if (timeall < 99) {
+    timeall = `00${timeall}`;
+  }
+  return `${hour}:${minutes}:${second}.${timeall}`;
 }
-
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock
