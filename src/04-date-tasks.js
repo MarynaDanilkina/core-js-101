@@ -74,28 +74,10 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-  let timeall = Math.abs(endDate.getTime() - startDate.getTime());
-  let hour = Math.floor(timeall / (1000 * 60 * 60));
-  if (hour < 9) {
-    hour = `0${hour}`;
-  }
-  timeall -= (hour * 1000 * 60 * 60);
-  let minutes = Math.floor(timeall / (1000 * 60));
-  if (minutes < 9) {
-    minutes = `0${minutes}`;
-  }
-  timeall -= (minutes * 1000 * 60);
-  let second = Math.floor(timeall / (1000));
-  if (second < 9) {
-    second = `0${second}`;
-  }
-  timeall -= (second * 1000);
-  if (timeall < 99) {
-    timeall = `00${timeall}`;
-  }
-  return `${hour}:${minutes}:${second}.${timeall}`;
+  const data = new Date(endDate - startDate);
+  const result = (data.toISOString()).split('T');
+  return result[1].slice(0, -1);
 }
-
 /**
  * Returns the angle (in radians) between the hands of an analog clock
  * for the specified Greenwich time.
@@ -112,11 +94,23 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands(date) {
+  const data = date.toUTCString();
+  const hours = data.slice(17, -10);
+  const minuts = data.slice(20, -7);
+  const degHours = 0.5 * (60 * +hours + +minuts);
+  const degMinuts = 6 * +minuts;
+  let deg = Math.abs(degHours - degMinuts);
+  if (deg > 360) {
+    deg -= 360;
+    deg = Math.abs(deg);
+  }
+  if (deg > 180) {
+    deg -= 360;
+    deg = Math.abs(deg);
+  }
+  return (deg * Math.PI) / 180;
 }
-
-
 module.exports = {
   parseDataFromRfc2822,
   parseDataFromIso8601,
