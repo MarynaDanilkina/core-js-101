@@ -168,11 +168,17 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const x1 = circle.center.x;
+  const y1 = circle.center.y;
+  const a1 = point.x;
+  const b1 = point.y;
+  const result = (x1 - a1) ** 2 + (y1 - b1) ** 2;
+  if ((result < circle.radius ** 2)) {
+    return true;
+  }
+  return false;
 }
-
-
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
  *
@@ -187,7 +193,6 @@ function isInsideCircle(/* circle, point */) {
 function findFirstSingleChar(/* str */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the string representation of math interval,
@@ -211,8 +216,23 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let first = '';
+  let end = '';
+  if (isStartIncluded === true) {
+    first = '[';
+  } else {
+    first = '(';
+  }
+  if (isEndIncluded === true) {
+    end = ']';
+  } else {
+    end = ')';
+  }
+  if (a < b) {
+    return `${first}${a}, ${b}${end}`;
+  }
+  return `${first}${b}, ${a}${end}`;
 }
 
 
@@ -291,10 +311,13 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let sum = `${num}`.split('').map(Number).reduce((a, b) => a + b);
+  if (sum > 9) {
+    sum = `${sum}`.split('').map(Number).reduce((a, b) => a + b);
+  }
+  return sum;
 }
-
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
  * Balanced means that is, whether it consists entirely of pairs of opening/closing brackets
